@@ -1,26 +1,84 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  color-scheme: dark;
+  --background: #111513;
+  --foreground: #e5eae6;
+  --surface: #191e1b;
+  --border: #2b332e;
+  --muted: #9ba79e;
+  --accent: #b8d9a3;
 }
-
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
 }
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+* { box-sizing: border-box; }
+body { margin: 0; background: var(--background); color: var(--foreground); font-family: var(--font-geist-sans), Arial, sans-serif; }
+a { text-decoration: none; }
+a:focus-visible { outline: 2px solid var(--accent); outline-offset: 5px; border-radius: 6px; }
+::selection { background: #40563b; color: #fff; }
+.app-shell { min-height: 100vh; display: flex; flex-direction: column; }
+.app-header { min-height: 88px; padding: 0 6%; border-bottom: 1px solid var(--border); display: flex; align-items: center; justify-content: space-between; gap: 20px; }
+.brand { display: flex; align-items: center; gap: 12px; font-size: 19px; font-weight: 650; letter-spacing: -.6px; }
+.brand-mark { display: grid; place-items: center; width: 33px; height: 33px; background: var(--accent); color: #23311e; border-radius: 11px; font-size: 26px; }
+.preview-badge { color: var(--muted); border: 1px solid var(--border); padding: 4px 6px; border-radius: 5px; font-size: 9px; letter-spacing: 1px; font-weight: 500; }
+.quiet-link { color: var(--muted); font-size: 12px; }
+.quiet-link:hover, .panel-footer a:hover { color: var(--accent); }
+.workspace { width: min(100% - 64px, 980px); margin: 0 auto; padding: 68px 0 70px; flex: 1; }
+.eyebrow { color: var(--muted); font-size: 10px; font-weight: 550; letter-spacing: 1.6px; display: flex; align-items: center; gap: 8px; }
+.status-dot { width: 6px; height: 6px; background: var(--accent); border-radius: 50%; display: inline-block; flex-shrink: 0; }
+.page-intro h1 { font-size: clamp(34px, 4.6vw, 49px); line-height: 1.16; font-weight: 500; letter-spacing: -2px; margin: 23px 0 18px; }
+.page-intro h1 span { color: var(--accent); }
+.page-intro > p { color: var(--muted); font-size: 14px; line-height: 1.8; margin: 0; }
+.repository-panel { margin-top: 42px; padding: 24px 27px; border: 1px solid var(--border); background: var(--surface); border-radius: 17px; display: flex; align-items: center; justify-content: space-between; gap: 18px; }
+.repository-details { display: flex; align-items: center; gap: 17px; }
+.repository-icon { display: grid; place-items: center; height: 44px; width: 44px; background: #252e27; border: 1px solid #354236; border-radius: 13px; color: var(--accent); font-size: 26px; }
+.repository-details .eyebrow { font-size: 9px; letter-spacing: 1.3px; }
+.repository-details h2 { font-size: 19px; font-weight: 550; margin: 5px 0 0; letter-spacing: -.4px; }
+.repository-details h2 span { color: var(--muted); font-weight: 400; }
+.public-badge { font-size: 11px; color: #b6c4b9; display: flex; align-items: center; gap: 8px; padding: 7px 11px; border-radius: 20px; background: #242e26; white-space: nowrap; }
+.issues-panel { margin-top: 26px; border: 1px solid var(--border); border-radius: 17px; overflow: hidden; background: #151a17; }
+.section-header { display: flex; align-items: center; justify-content: space-between; gap: 16px; padding: 23px 27px; }
+.section-title { display: flex; align-items: center; gap: 10px; }
+.section-title h2 { font-size: 14px; font-weight: 550; margin: 0; }
+.count-badge { background: #2a332c; color: #c5d3c7; border-radius: 6px; padding: 2px 7px; font-size: 10px; }
+.section-caption { color: var(--muted); font-size: 11px; }
+.issue-list { list-style: none; padding: 0; margin: 0; }
+.issue-list li { border-top: 1px solid var(--border); }
+.issue-row { display: flex; align-items: flex-start; gap: 15px; padding: 25px 27px; transition: background .15s; }
+.issue-row:hover { background: #1d251f; }
+.issue-status { display: grid; place-items: center; border: 1.5px solid var(--accent); width: 16px; height: 16px; border-radius: 50%; margin-top: 4px; flex-shrink: 0; }
+.issue-status span { width: 4px; height: 4px; border-radius: 50%; background: var(--accent); }
+.issue-content { flex: 1; min-width: 0; }
+.issue-content h3 { font-size: 14px; font-weight: 450; line-height: 1.6; margin: 0; overflow-wrap: anywhere; }
+.issue-content p { color: var(--muted); font-size: 11px; margin: 9px 0 0; display: flex; flex-wrap: wrap; gap: 9px; }
+.issue-label { color: #aac49f; }
+.row-arrow { color: #7d8d80; margin-top: 2px; }
+.panel-footer { padding: 17px 27px; border-top: 1px solid var(--border); display: flex; justify-content: space-between; gap: 20px; color: var(--muted); font-size: 10px; line-height: 1.6; }
+.panel-footer a { white-space: nowrap; color: #c3cdc5; }
+.workspace-note { display: flex; align-items: center; justify-content: center; gap: 10px; margin-top: 26px; color: var(--muted); font-size: 11px; line-height: 1.7; }
+.workspace-note > span { color: var(--accent); }
+.workspace-note p { margin: 0; }
+.empty-state { padding: 40px 24px; text-align: center; border-top: 1px solid var(--border); }
+.empty-state h3 { font-size: 16px; font-weight: 500; margin: 12px 0 8px; }
+.empty-state p { font-size: 13px; color: var(--muted); line-height: 1.7; }
+.retry-link { display: inline-block; margin-top: 12px; font-size: 12px; color: var(--accent); }
+.app-footer { margin: 0 6%; padding: 23px 0; border-top: 1px solid var(--border); display: flex; justify-content: space-between; gap: 15px; color: var(--muted); font-size: 10px; }
+@media (max-width: 600px) {
+  .app-header { min-height: 74px; padding: 0 22px; }
+  .preview-badge { display: none; }
+  .quiet-link { font-size: 10px; }
+  .workspace { width: calc(100% - 36px); padding: 42px 0; }
+  .page-intro h1 { letter-spacing: -1.3px; }
+  .repository-panel { margin-top: 30px; padding: 20px; flex-wrap: wrap; }
+  .public-badge { margin-left: 61px; }
+  .section-header, .issue-row { padding: 21px 20px; }
+  .panel-footer { padding: 16px 20px; }
+  .section-caption { font-size: 10px; }
+  .workspace-note { align-items: flex-start; justify-content: flex-start; padding: 0 8px; }
+  .app-footer { margin: 0 22px; flex-wrap: wrap; }
 }
-
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
-}
+@media (prefers-reduced-motion: reduce) { .issue-row { transition: none; } }

@@ -1,46 +1,78 @@
+import Link from "next/link";
+
+type repoInfo = {
+  name: string;
+  owner: string;
+}
+
 type GitHubIssue = {
   id: number;
   title: string;
   html_url: string;
-  pull_request?: {
-    url: string;
-  }
-}
+  pull_request?: { url: string };
+};
 
+  const repoURL = "https://api.github.com/repos/jacobt1926/issuepilot/issues?state=open&per_page=5";
 
 
 export default async function Home() {
+  let issues: GitHubIssue[] = [];
+  let failed = false;
 
-  const response = await fetch("https://api.github.com/repos/facebook/react/issues?state=open&per_page=5")
-  if (!response.ok) {
-    return (
-      <main>
-        <p>Couldn&apos;t load GitHub issues. Please try again later.</p>
-      </main>
-    )
-  };
-  const issues: GitHubIssue[] = await response.json()
-  const actualIssues = issues.filter((issue) => !issue.pull_request)
-
-  if (actualIssues.length === 0) {
-    return (
-      <main>
-        <p>No open issues found.</p>
-      </main>
-    )
+  try {
+    const response = await fetch(repoURL);
+    if (!response.ok) throw new Error("Results could not be fetched.");
+    issues = await response.json();
+  } catch {
+    failed = true;
   }
 
+
+  const parsedUrl = new URL(repoURL);
+
+  const segments = parsedUrl.pathname.split('/');
+
+  const namingInfo: repoInfo = {
+    owner: segments[2],
+    name: segments[3]
+  };
+
+  const actualIssues = issues.filter((issue) => !issue.pull_request);
+
   return (
-    <div>
-      <main>
-        <h1>IssuePilot</h1>
-        <p>Issue pilot is a development tool that shows you the issues that matter most, and gives you guidance on fixing them.</p>
-        <ul>
-          {actualIssues.map((issue) => (
-            <li key={issue.id}><a href={issue.html_url}>{issue.title}</a></li>
-          ))}
-        </ul>
+    <div className="app-shell">
+      <header className="app-header">
+        <Link className="brand" href="/" aria-label="IssuePilot home"><span className="brand-mark" aria-hidden="true">↗</span>IssuePilot<span className="preview-badge">PREVIEW</span></Link>
+        <a className="quiet-link" href="https://github.com/facebook/react">View on GitHub ↗</a>
+      </header>
+      <main className="workspace">
+        <div className="page-intro">
+          <div className="eyebrow"><span className="status-dot" /> YOUR DEVELOPMENT WORKSPACE</div>
+          <h1>A little clarity.<br /><span>A better place to start.</span></h1>
+          <p>Explore open issues and find your next contribution.<br />One repository, one step at a time.</p>
+        </div>
+        <section className="repository-panel" aria-labelledby="repository-heading">
+          <div className="repository-details"><span className="repository-icon" aria-hidden="true">⌘</span><div><div className="eyebrow">CURRENT REPOSITORY</div><h2 id="repository-heading"><span>{namingInfo.owner} /</span> {namingInfo.name}</h2></div></div>
+          <span className="public-badge"><span className="status-dot" /> Public repository</span>
+        </section>
+        <section className="issues-panel" aria-labelledby="issues-heading">
+          <div className="section-header"><div className="section-title"><h2 id="issues-heading">Open issues</h2>{!failed && <span className="count-badge">{actualIssues.length}</span>}</div><span className="section-caption">Latest from GitHub</span></div>
+          {failed ? (
+            <div className="empty-state" role="status"><h3>A small interruption</h3><p>Something went wrong loading issues. Please try again later.</p><form action="/"><button className="retry-link" type="submit">Try again ↗</button></form></div>
+          ) : actualIssues.length === 0 ? (
+            <div className="empty-state"><h3>Nothing to show just yet</h3><p>No open issues found in these results.</p></div>
+          ) : (
+            <ul className="issue-list">{actualIssues.map((issue) => (
+              <li key={issue.id}><a className="issue-row" href={issue.html_url}><span className="issue-status" aria-hidden="true"><span /></span><div className="issue-content"><h3>{issue.title}</h3><p>facebook/react <span aria-hidden="true">·</span> <span className="issue-label">Open issue</span></p></div><span className="row-arrow" aria-hidden="true">↗</span></a></li>
+            ))}</ul>
+          )}
+          <div className="panel-footer"><span>Latest 5 entries · Pull requests excluded</span><a href="https://github.com/facebook/react/issues">All issues ↗</a></div>
+        </section>
+        <div className="workspace-note"><span aria-hidden="true">✦</span><p>Small contributions make a difference. Start with something that sparks your curiosity.</p></div>
       </main>
+      <footer className="app-footer"><span>IssuePilot</span><span>A calmer way to find your next contribution.</span></footer>
     </div>
   );
 }
+
+
