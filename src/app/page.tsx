@@ -12,7 +12,7 @@ type GitHubIssue = {
   pull_request?: { url: string };
 };
 
-  const repoURL = "https://api.github.com/repos/jacobt1926/issuepilot/issues?state=open&per_page=5";
+  const repoURL = "https://api.github.com/repos/facebook/react/issues?state=open&per_page=5";
 
 
 export default async function Home() {
@@ -24,12 +24,14 @@ export default async function Home() {
     if (!response.ok) throw new Error("Results could not be fetched.");
     issues = await response.json();
   } catch {
+    // Keep the page shell visible when the request or JSON parsing fails.
     failed = true;
   }
 
 
   const parsedUrl = new URL(repoURL);
 
+  // API paths use /repos/{owner}/{name}/issues; the leading slash creates an empty first segment.
   const segments = parsedUrl.pathname.split('/');
 
   const namingInfo: repoInfo = {
@@ -37,13 +39,16 @@ export default async function Home() {
     name: segments[3]
   };
 
+  const githubRepoURL: string = `https://github.com/${namingInfo.owner}/${namingInfo.name}`
+
+  // GitHub's issues endpoint also returns pull requests, which we exclude from this list.
   const actualIssues = issues.filter((issue) => !issue.pull_request);
 
   return (
     <div className="app-shell">
       <header className="app-header">
         <Link className="brand" href="/" aria-label="IssuePilot home"><span className="brand-mark" aria-hidden="true">↗</span>IssuePilot<span className="preview-badge">PREVIEW</span></Link>
-        <a className="quiet-link" href="https://github.com/facebook/react">View on GitHub ↗</a>
+        <a className="quiet-link" href={githubRepoURL}>View on GitHub ↗</a>
       </header>
       <main className="workspace">
         <div className="page-intro">
@@ -57,16 +62,17 @@ export default async function Home() {
         </section>
         <section className="issues-panel" aria-labelledby="issues-heading">
           <div className="section-header"><div className="section-title"><h2 id="issues-heading">Open issues</h2>{!failed && <span className="count-badge">{actualIssues.length}</span>}</div><span className="section-caption">Latest from GitHub</span></div>
+          {/* A failed request takes precedence over an empty result set. */}
           {failed ? (
             <div className="empty-state" role="status"><h3>A small interruption</h3><p>Something went wrong loading issues. Please try again later.</p><form action="/"><button className="retry-link" type="submit">Try again ↗</button></form></div>
           ) : actualIssues.length === 0 ? (
             <div className="empty-state"><h3>Nothing to show just yet</h3><p>No open issues found in these results.</p></div>
           ) : (
             <ul className="issue-list">{actualIssues.map((issue) => (
-              <li key={issue.id}><a className="issue-row" href={issue.html_url}><span className="issue-status" aria-hidden="true"><span /></span><div className="issue-content"><h3>{issue.title}</h3><p>facebook/react <span aria-hidden="true">·</span> <span className="issue-label">Open issue</span></p></div><span className="row-arrow" aria-hidden="true">↗</span></a></li>
+              <li key={issue.id}><a className="issue-row" href={issue.html_url}><span className="issue-status" aria-hidden="true"><span /></span><div className="issue-content"><h3>{issue.title}</h3><p>{namingInfo.owner}/{namingInfo.name} <span aria-hidden="true">·</span> <span className="issue-label">Open issue</span></p></div><span className="row-arrow" aria-hidden="true">↗</span></a></li>
             ))}</ul>
           )}
-          <div className="panel-footer"><span>Latest 5 entries · Pull requests excluded</span><a href="https://github.com/facebook/react/issues">All issues ↗</a></div>
+          <div className="panel-footer"><span>Latest 5 entries · Pull requests excluded</span><a href={repoURL}>All issues ↗</a></div>
         </section>
         <div className="workspace-note"><span aria-hidden="true">✦</span><p>Small contributions make a difference. Start with something that sparks your curiosity.</p></div>
       </main>
