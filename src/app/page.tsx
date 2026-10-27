@@ -3,6 +3,8 @@ import {fetchGitHubIssues} from "@/lib/github";
 import {GitHubIssue} from "@/lib/github";
 import {repoInfo} from "@/lib/github";
 
+export const instant = false;
+
 export default async function Home({ searchParams}: PageProps<"/">) {
   
   const query = await searchParams;
@@ -32,7 +34,7 @@ export default async function Home({ searchParams}: PageProps<"/">) {
   }
   } else {
     inputMessage = (
-      <p role="alert">Enter both a repository owner and name.</p>
+      <p className="input-message" id="repository-error" role="alert">Enter both a repository owner and name.</p>
     );  
   }
 
@@ -50,11 +52,24 @@ export default async function Home({ searchParams}: PageProps<"/">) {
           <h1>A little clarity.<br /><span>A better place to start.</span></h1>
           <p>Explore open issues and find your next contribution.<br />One repository, one step at a time.</p>
         </div>
-        <form action="/" method="get">
-          <input id="owner" name="owner" required defaultValue={owner}/><label htmlFor="owner">Repo Owner</label>
-          <input id="repo" name="repo" required defaultValue={repo}/><label htmlFor="repo">Repo Name</label>
-          <button type="submit">Load issues</button>
-
+        <form className="repository-form" action="/" method="get" aria-labelledby="form-heading" aria-describedby={invalidInput ? "repository-error" : undefined}>
+          <div className="form-intro">
+            <h2 id="form-heading">Find your next contribution</h2>
+            <p>Choose a public GitHub repository to explore its open issues.</p>
+          </div>
+          <div className="form-fields">
+            <div className="form-field">
+              <label htmlFor="owner">Repository owner</label>
+              <input className="userform" id="owner" name="owner" placeholder="e.g. facebook" required defaultValue={owner} autoComplete="off" spellCheck={false}/>
+              <span>The person or organization on GitHub</span>
+            </div>
+            <div className="form-field">
+              <label htmlFor="repo">Repository name</label>
+              <input className="userform" id="repo" name="repo" placeholder="e.g. react" required defaultValue={repo} autoComplete="off" spellCheck={false}/>
+              <span>The project name, without the full URL</span>
+            </div>
+            <button className="load-button" type="submit">Load issues <span aria-hidden="true">↗</span></button>
+          </div>
         </form>
         {inputMessage}
         {!invalidInput && (
@@ -85,12 +100,9 @@ export default async function Home({ searchParams}: PageProps<"/">) {
             </section>
           </>
         )}
-        
         <div className="workspace-note"><span aria-hidden="true">✦</span><p>Small contributions make a difference. Start with something that sparks your curiosity.</p></div>
       </main>
       <footer className="app-footer"><span>IssuePilot</span><span>A calmer way to find your next contribution.</span></footer>
     </div>
   );
 }
-
-
