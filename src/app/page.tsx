@@ -2,6 +2,7 @@ import Link from "next/link";
 import {fetchGitHubIssues} from "@/lib/github";
 import {GitHubIssue} from "@/lib/github";
 import {repoInfo} from "@/lib/github";
+import IssueCard from "@/components/IssueCard";
 
 export const instant = false;
 
@@ -49,12 +50,12 @@ export default async function Home({ searchParams}: PageProps<"/">) {
       <main className="workspace">
         <div className="page-intro">
           <div className="eyebrow"><span className="status-dot" /> YOUR DEVELOPMENT WORKSPACE</div>
-          <h1>A little clarity.<br /><span>A better place to start.</span></h1>
-          <p>Explore open issues and find your next contribution.<br />One repository, one step at a time.</p>
+          <h1>IssuePilot<br /><span>An Open-Source Development Tool</span></h1>
+          <p>Explore open issues and find your next contribution.</p>
         </div>
         <form className="repository-form" action="/" method="get" aria-labelledby="form-heading" aria-describedby={invalidInput ? "repository-error" : undefined}>
           <div className="form-intro">
-            <h2 id="form-heading">Find your next contribution</h2>
+            <h2 id="form-heading">Repository Lookup</h2>
             <p>Choose a public GitHub repository to explore its open issues.</p>
           </div>
           <div className="form-fields">
@@ -92,9 +93,16 @@ export default async function Home({ searchParams}: PageProps<"/">) {
               ) : issues.length === 0 ? (
                 <div className="empty-state"><h3>Nothing to show just yet</h3><p>No open issues found in these results.</p></div>
               ) : (
-                <ul className="issue-list">{issues.map((issue) => (
-                  <li key={issue.id}><a className="issue-row" href={issue.html_url}><span className="issue-status" aria-hidden="true"><span /></span><div className="issue-content"><h3>{issue.title}</h3><p>{namingInfo.owner}/{namingInfo.name} <span aria-hidden="true">·</span> <span className="issue-label">Open issue</span></p></div><span className="row-arrow" aria-hidden="true">↗</span></a></li>
-                ))}</ul>
+                <ul className="issue-list">
+                  {issues.map((issue) => (
+                    <IssueCard
+                      key={issue.id}
+                      issue={issue}
+                      owner={namingInfo.owner}
+                      repo={namingInfo.name}
+                    />
+                  ))}
+                </ul>
               )}
               <div className="panel-footer"><span>Latest 5 entries · Pull requests excluded</span><a href={`${githubRepoURL}/issues`}>All issues ↗</a></div>
             </section>

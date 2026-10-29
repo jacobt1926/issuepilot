@@ -8,7 +8,16 @@ export type GitHubIssue = {
   title: string;
   html_url: string;
   pull_request?: { url: string };
+  number: number;
+  body: string | null;
+  labels: GitHubLabel[];
 };
+
+export type GitHubLabel = {
+  id: number;
+  name: string;
+  color: string;
+}
 
 export async function fetchGitHubIssues(
     owner: string,
