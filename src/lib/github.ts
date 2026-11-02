@@ -25,7 +25,6 @@ export async function fetchGitHubIssues(
 ): Promise<GitHubIssue[]> {
     "use cache"
     const apiURL: string = `https://api.github.com/repos/${owner}/${repo}/issues?state=open&per_page=5`;
-
     const response = await fetch(apiURL);
     if (!response.ok) throw new Error("Results could not be fetched.");
     const issues: GitHubIssue[] = await response.json();
@@ -34,4 +33,16 @@ export async function fetchGitHubIssues(
 
     return actualIssues;
 
+}
+
+export async function fetchGitHubIssue(
+  owner: string,
+  repo: string,
+  number: string,
+): Promise<GitHubIssue> {
+    const apiURL: string = `https://api.github.com/repos/${owner}/${repo}/issues/${number}`;
+    const response = await fetch(apiURL);
+    if (!response.ok) throw Error("Results could not be fetched.");
+    const issue: GitHubIssue = await response.json();
+    return issue;
 }

@@ -129,3 +129,46 @@ button:focus-visible { outline: 2px solid var(--accent); outline-offset: 4px; }
   background: var(--formbackgrounds);
   border-width: 2px;
 }
+.issue-detail-workspace { max-width: 900px; }
+.detail-breadcrumb { display: flex; align-items: center; flex-wrap: wrap; gap: 11px; margin-bottom: 22px; color: var(--muted); font-size: 12px; }
+.detail-breadcrumb a { color: var(--accent); }
+.detail-breadcrumb a:hover, .detail-github-link:hover { color: #d5ecff; }
+.detail-back-link { display: inline-flex; align-items: center; gap: 9px; margin-bottom: 20px; color: var(--accent); font-size: 13px; }
+.detail-card { padding: clamp(24px, 5vw, 48px); border: 1px solid var(--border); border-radius: 24px; background: linear-gradient(145deg, #242d39, #1e242d 60%); box-shadow: 0 22px 60px rgb(0 0 0 / 18%); }
+.detail-card-header { display: flex; align-items: center; justify-content: space-between; gap: 16px; }
+.detail-eyebrow { display: inline-flex; align-items: center; gap: 9px; color: #c4d5e8; font-size: 10px; font-weight: 650; letter-spacing: 1.2px; }
+.detail-open-dot { width: 8px; height: 8px; border: 2px solid var(--accent); border-radius: 50%; }
+.detail-header-dot { color: #718197; }
+.detail-github-link { display: inline-flex; align-items: center; gap: 8px; padding: 9px 13px; border: 1px solid #46586d; border-radius: 999px; color: #d5e7f8; font-size: 11px; white-space: nowrap; transition: background .15s, border-color .15s; }
+.detail-github-link:hover { border-color: #7898b9; background: #29394b; }
+.detail-title { max-width: 760px; margin: 27px 0 12px; font-size: clamp(27px, 4.2vw, 40px); line-height: 1.22; font-weight: 550; letter-spacing: -1.1px; overflow-wrap: anywhere; }
+.detail-repository { margin: 0; color: var(--muted); font-size: 13px; }
+.detail-labels { display: flex; flex-wrap: wrap; gap: 9px; margin-top: 23px; }
+.detail-divider-line { height: 1px; margin: 30px 0; background: var(--border); }
+.detail-description h2 { margin: 0 0 15px; color: #dce9f7; font-size: 13px; font-weight: 600; letter-spacing: .3px; }
+.detail-description p { margin: 0; color: #d2dbe7; font-size: 14px; line-height: 1.9; white-space: pre-wrap; overflow-wrap: anywhere; }
+.detail-error { margin-top: 24px; }
+.detail-error h1 { margin: 14px 0 8px; font-size: clamp(23px, 4vw, 32px); font-weight: 550; }
+.detail-error p { margin: 0; color: var(--muted); font-size: 14px; line-height: 1.7; }
+@media (max-width: 600px) {
+  .detail-card-header { align-items: flex-start; flex-direction: column; }
+  .detail-title { margin-top: 22px; }
+  .detail-divider-line { margin: 24px 0; }
+}
+
+/* Extra contrast between the separate content blocks on an issue detail page. */
+.detail-breadcrumb a, .detail-breadcrumb > span:last-child { padding: 8px 12px; border: 1px solid var(--border); border-radius: 999px; background: #202a36; }
+.detail-breadcrumb a { color: var(--accent); }
+.detail-github-link { padding: 10px 15px; border: 1px solid #526b86; border-radius: 14px; background: #30445b; box-shadow: inset 0 1px rgb(255 255 255 / 7%), 0 3px 0 #18222e; color: #e2f1ff; font-weight: 600; }
+.detail-github-link:hover { border-color: #7898b9; background: #3a526d; }
+.detail-title { padding: 20px 23px; border: 1px solid #3c4b5e; border-radius: 18px; background: #293341; box-shadow: inset 0 1px rgb(255 255 255 / 4%); }
+.detail-repository { display: inline-flex; padding: 9px 13px; border: 1px solid #38495d; border-radius: 12px; background: #222d3a; color: #c4d5e8; font-size: 12px; }
+.detail-divider-line { background: #405064; }
+.detail-description { padding: 21px 23px; border: 1px solid #364658; border-radius: 18px; background: #222c38; box-shadow: inset 0 1px rgb(255 255 255 / 3%); }
+.detail-description h2 { display: inline-flex; margin-bottom: 16px; padding: 7px 11px; border: 1px solid #40566d; border-radius: 10px; background: #2c3b4c; color: #dce9f7; font-size: 11px; font-weight: 650; letter-spacing: .7px; text-transform: uppercase; }
+.detail-description p { padding: 17px 18px; border: 1px solid #334151; border-radius: 14px; background: #1b232d; }
+.label-badge { padding: 7px 12px; border-width: 1px; border-radius: 999px; background: color-mix(in srgb, var(--accent) 12%, #1b232d); box-shadow: inset 0 1px rgb(255 255 255 / 6%), 0 2px 0 #171d25; color: #e5f2ff; font-size: 11px; font-weight: 600; letter-spacing: .1px; }
+.detail-labels .label-badge { padding: 8px 14px; font-size: 12px; }
+.detail-back-link { padding: 10px 15px; border: 1px solid #526b86; border-radius: 14px; background: #30445b; box-shadow: inset 0 1px rgb(255 255 255 / 7%), 0 3px 0 #18222e; color: #e2f1ff; font-weight: 600; }
+.detail-back-link:hover { background: #3a526d; }
+@media (max-width: 600px) { .detail-description { padding: 17px; } .detail-description p { padding: 14px; } }

@@ -20,7 +20,7 @@ export default function IssueCard({
     }
     return (
         <li>
-            <a className="issue-row" href={issue.html_url}>
+            <a className="issue-row" href={`/repos/${owner}/${repo}/issues/${issue.number}`}>
                 <span className="issue-status" aria-hidden="true">
                 <span />
                 </span>

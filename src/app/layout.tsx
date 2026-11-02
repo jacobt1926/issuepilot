@@ -17,13 +17,13 @@ export const metadata: Metadata = {
   description: "Explore open GitHub issues and find your next contribution, one repository at a time.",
 };
 
-export default function RootLayout({ children }: LayoutProps<"/">) {
+export default function RootLayout({ children, modal }: LayoutProps<"/">) {
   return (
     <html
       lang="en"
       className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
     >
-      <body className="min-h-full flex flex-col">{children}</body>
+      <body className="min-h-full flex flex-col">{children}{modal}</body>
     </html>
   );
 }
