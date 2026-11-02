@@ -1,4 +1,5 @@
 import type { GitHubIssue } from "@/lib/github";
+import Link from "next/link";
 
 export type IssueCardProps = {
     issue: GitHubIssue;
@@ -20,7 +21,7 @@ export default function IssueCard({
     }
     return (
         <li>
-            <a className="issue-row" href={`/repos/${owner}/${repo}/issues/${issue.number}`}>
+            <Link className="issue-row" href={`/repos/${owner}/${repo}/issues/${issue.number}`}>
                 <span className="issue-status" aria-hidden="true">
                 <span />
                 </span>
@@ -35,7 +36,7 @@ export default function IssueCard({
                     </div>
                 </div>
                 <span className="row-arrow" aria-hidden="true">↗</span>
-            </a>
+            </Link>
         </li>
     );
 }

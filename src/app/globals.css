@@ -172,3 +172,26 @@ button:focus-visible { outline: 2px solid var(--accent); outline-offset: 4px; }
 .detail-back-link { padding: 10px 15px; border: 1px solid #526b86; border-radius: 14px; background: #30445b; box-shadow: inset 0 1px rgb(255 255 255 / 7%), 0 3px 0 #18222e; color: #e2f1ff; font-weight: 600; }
 .detail-back-link:hover { background: #3a526d; }
 @media (max-width: 600px) { .detail-description { padding: 17px; } .detail-description p { padding: 14px; } }
+
+
+.issue-modal-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  display: grid;
+  place-items: center;
+  padding: 24px;
+  background: rgb(10 15 22 / 68%);
+  backdrop-filter: blur(8px);
+}
+
+.issue-modal {
+  width: min(900px, 100%);
+  max-height: 85vh;
+  overflow: auto;
+  padding: 36px;
+  border: 1px solid var(--border);
+  border-radius: 24px;
+  background: var(--surface);
+  box-shadow: 0 24px 80px rgb(0 0 0 / 45%);
+}
