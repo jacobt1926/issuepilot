@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { fetchGitHubIssue } from "@/lib/github";
 import type { GitHubIssue } from "@/lib/github";
+import SummarizeIssue from "@/components/IssueSummaryPanel";
 
 export const instant = false;
 
@@ -33,6 +34,13 @@ export default async function Backdrop({ params }: PageProps<"/repos/[owner]/[re
                                 </span>
                             ))}
                         </div>
+                        <SummarizeIssue
+                            input={{
+                                title: details.title,
+                                body: details.body,
+                                labels: details.labels.map((label) => label.name),
+                            }}
+                        />
                     </>
                 ) : (
                     <p role="alert">Issue details couldn&apos;t load.</p>

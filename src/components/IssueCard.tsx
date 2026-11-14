@@ -31,12 +31,13 @@ export default function IssueCard({
                     <p>{preview}</p>
                     <div className="issue-labels">
                         {issue.labels.map((label) => (
-                        <span style={{ borderColor: `#${label.color}` }} key={label.id} className="label-badge">{label.name}</span>
+                            <span style={{ borderColor: `#${label.color}` }} key={label.id} className="label-badge">{label.name}</span>
                         ))}
                     </div>
                 </div>
                 <span className="row-arrow" aria-hidden="true">↗</span>
             </Link>
         </li>
+        
     );
 }
