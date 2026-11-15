@@ -64,7 +64,7 @@ export default function SummarizeIssue({ input}: {input: IssueSummaryInput}) {
               <span className="summary-kicker">ISSUEPILOT SUMMARY</span>
               <h2 id="summary-heading">A clearer path into this issue</h2>
             </div>
-            <span className="summary-sparkle" aria-hidden="true">✦</span>
+            <span className="summary-ready-badge">READY TO READ</span>
           </header>
 
           <div className="summary-grid">

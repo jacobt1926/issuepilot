@@ -38,14 +38,19 @@ export default async function IssuePage({ params }: PageProps<"/repos/[owner]/[r
 
       <article className="detail-card">
         <div className="detail-card-header">
-          <div className="detail-eyebrow"><span className="detail-open-dot" /> OPEN ISSUE <span className="detail-header-dot">·</span> #{details.number}</div>
+          <div className="detail-eyebrow">
+            <span className="detail-open-dot" /> OPEN ISSUE
+            <span className="detail-header-dot" aria-hidden="true">·</span>
+            <span className="detail-header-repository">{owner}/{repo}</span>
+            <span className="detail-header-dot" aria-hidden="true">·</span>
+            #{details.number}
+          </div>
           <a className="detail-github-link" href={details.html_url} target="_blank" rel="noreferrer">
             View on GitHub <span aria-hidden="true">↗</span>
           </a>
         </div>
 
         <h1 className="detail-title">{details.title}</h1>
-        <p className="detail-repository">{owner}/{repo}</p>
 
         {details.labels.length > 0 && (
           <div className="detail-labels" aria-label="Issue labels">
