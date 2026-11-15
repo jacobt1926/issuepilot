@@ -2,6 +2,7 @@ import Link from "next/link";
 import { fetchGitHubIssue } from "@/lib/github";
 import type { GitHubIssue } from "@/lib/github";
 import SummarizeIssue from "@/components/IssueSummaryPanel";
+import MarkdownContent from "@/components/MarkdownContent";
 
 export const instant = false;
 
@@ -25,7 +26,7 @@ export default async function Backdrop({ params }: PageProps<"/repos/[owner]/[re
                         <br/>
                         <p>{details.number}</p>
                         <br/>
-                        <p>{description}</p>
+                        <MarkdownContent content={description} />
                         <br/>
                         <div className="detail-labels" aria-label="Issue labels">
                             {details.labels.map((label) => (

@@ -1,6 +1,7 @@
 import { fetchGitHubIssue } from "@/lib/github";
 import Link from "next/link";
 import SummarizeIssue from "@/components/IssueSummaryPanel";
+import MarkdownContent from "@/components/MarkdownContent";
 
 export default async function IssuePage({ params }: PageProps<"/repos/[owner]/[repo]/issues/[number]">) {
   const { owner, repo, number } = await params;
@@ -59,7 +60,7 @@ export default async function IssuePage({ params }: PageProps<"/repos/[owner]/[r
         <div className="detail-divider-line" />
         <section className="detail-description" aria-labelledby="description-heading">
           <h2 id="description-heading">Description</h2>
-          <p>{description}</p>
+          <MarkdownContent content={description} />
         </section>
 
         <SummarizeIssue

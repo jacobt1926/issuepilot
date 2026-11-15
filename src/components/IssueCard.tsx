@@ -1,5 +1,6 @@
 import type { GitHubIssue } from "@/lib/github";
 import Link from "next/link";
+import MarkdownContent from "@/components/MarkdownContent";
 
 export type IssueCardProps = {
     issue: GitHubIssue;
@@ -13,12 +14,6 @@ export default function IssueCard({
     repo,
 }: IssueCardProps) {
     const description = issue.body?.trim() || "No description provided.";
-    let preview: string;
-    if (description.length > 180) {
-    preview = description.slice(0, 180) + "...";
-    } else {
-    preview = description;
-    }
     return (
         <li>
             <Link className="issue-row" href={`/repos/${owner}/${repo}/issues/${issue.number}`}>
@@ -28,7 +23,7 @@ export default function IssueCard({
                 <div className="issue-content">
                     <h3>{issue.title}</h3>
                     <p>{owner}/{repo}<br/>#{issue.number}<span aria-hidden="true">·</span> <span className="issue-label">Open issue</span></p>
-                    <p>{preview}</p>
+                    <MarkdownContent content={description} className="markdown-preview" disableLinks />
                     <div className="issue-labels">
                         {issue.labels.map((label) => (
                             <span style={{ borderColor: `#${label.color}` }} key={label.id} className="label-badge">{label.name}</span>
