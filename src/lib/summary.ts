@@ -1,13 +1,17 @@
-export type IssueSummary = {
-    overview: string;
-    plainExplanation: string;
-    keyDetails: Array<string>;
-    firstStep: string;
-
-}
+import { z } from "zod";
 
 export type IssueSummaryInput = {
     title: string;
     body: string | null;
     labels: Array<string>;
 }
+
+export const issueSummarySchema = z.object({
+    overview: z.string(),
+    plainExplanation: z.string(),
+    keyDetails: z.array(z.string()),
+    firstStep: z.string()
+})
+
+export type IssueSummary = z.infer<typeof issueSummarySchema>;
+

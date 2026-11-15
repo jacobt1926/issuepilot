@@ -1,5 +1,6 @@
 import { fetchGitHubIssue } from "@/lib/github";
 import Link from "next/link";
+import SummarizeIssue from "@/components/IssueSummaryPanel";
 
 export default async function IssuePage({ params }: PageProps<"/repos/[owner]/[repo]/issues/[number]">) {
   const { owner, repo, number } = await params;
@@ -60,6 +61,14 @@ export default async function IssuePage({ params }: PageProps<"/repos/[owner]/[r
           <h2 id="description-heading">Description</h2>
           <p>{description}</p>
         </section>
+
+        <SummarizeIssue
+          input={{
+            title: details.title,
+            body: details.body,
+            labels: details.labels.map((label) => label.name),
+          }}
+        />
       </article>
     </main>
   );

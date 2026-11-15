@@ -19,12 +19,13 @@ export type GitHubLabel = {
   color: string;
 }
 
+
 export async function fetchGitHubIssues(
     owner: string,
     repo: string,
 ): Promise<GitHubIssue[]> {
     "use cache"
-    const apiURL: string = `https://api.github.com/repos/${owner}/${repo}/issues?state=open&per_page=5`;
+    const apiURL: string = `https://api.github.com/repos/${owner}/${repo}/issues?state=open&per_page=25`;
     const response = await fetch(apiURL);
     if (!response.ok) throw new Error("Results could not be fetched.");
     const issues: GitHubIssue[] = await response.json();
