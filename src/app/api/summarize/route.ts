@@ -2,24 +2,13 @@ import type { IssueSummaryInput } from "@/lib/summary"
 import OpenAI from "openai";
 import { zodTextFormat } from "openai/helpers/zod";
 import { issueSummarySchema } from "@/lib/summary";
+import { isIssueSummaryInput } from "@/lib/summary";
 
 const openaiClient = new OpenAI();
 
 export async function POST(request: Request) {
 
     let issueInput: unknown;
-
-    function isIssueSummaryInput(input: unknown): input is IssueSummaryInput {
-        return (
-            input !== null &&
-            typeof input === 'object' &&
-            'title' in input && typeof input.title === 'string' &&
-            'body' in input && (typeof input.body === 'string' ||
-            input.body === null) &&
-            'labels' in input && Array.isArray(input.labels) && 
-            input.labels.every((label: unknown) => typeof label === 'string')
-        );
-    }
 
     try {
         issueInput= await request.json()
